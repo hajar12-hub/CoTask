@@ -2,6 +2,7 @@ package com.CoTask.mapper;
 
 import com.CoTask.dto.UserDTO;
 import com.CoTask.entity.User;
+import com.CoTask.dto.UserResponseDTO;
 import org.springframework.stereotype.Component;
 
 @Component

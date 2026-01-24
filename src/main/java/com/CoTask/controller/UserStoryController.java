@@ -2,6 +2,7 @@ package com.CoTask.controller;
 
 import com.CoTask.dto.UserStoryDTO;
 import com.CoTask.service.UserStoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,27 +18,28 @@ public class UserStoryController {
     private final UserStoryService userStoryService;
 
     @PostMapping
-    public ResponseEntity<UserStoryDTO> createUserStory(@RequestBody UserStoryDTO userStoryDTO) {
+    public ResponseEntity<UserStoryDTO> createUserStory(@Valid @RequestBody UserStoryDTO userStoryDTO) {
         UserStoryDTO createdUserStory = userStoryService.createUserStory(userStoryDTO);
         return new ResponseEntity<>(createdUserStory, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserStoryDTO> updateUserStory(@PathVariable Long id, @RequestBody UserStoryDTO userStoryDTO) {
+    public ResponseEntity<UserStoryDTO> updateUserStory(
+            @PathVariable Long id,
+            @RequestBody UserStoryDTO userStoryDTO) {
+
         UserStoryDTO updatedUserStory = userStoryService.updateUserStory(id, userStoryDTO);
         return ResponseEntity.ok(updatedUserStory);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserStoryDTO> getUserStoryById(@PathVariable Long id) {
-        UserStoryDTO userStoryDTO = userStoryService.getUserStoryById(id);
-        return ResponseEntity.ok(userStoryDTO);
+        return ResponseEntity.ok(userStoryService.getUserStoryById(id));
     }
 
     @GetMapping
     public ResponseEntity<List<UserStoryDTO>> getAllUserStories() {
-        List<UserStoryDTO> userStories = userStoryService.getAllUserStories();
-        return ResponseEntity.ok(userStories);
+        return ResponseEntity.ok(userStoryService.getAllUserStories());
     }
 
     @DeleteMapping("/{id}")
@@ -46,37 +48,22 @@ public class UserStoryController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{id}/product-backlog/{productBacklogId}")
-    public ResponseEntity<UserStoryDTO> addUserStoryToProductBacklog(
-            @PathVariable Long id,
-            @PathVariable Long productBacklogId) {
-        UserStoryDTO userStory = userStoryService.addUserStoryToProductBacklog(id, productBacklogId);
-        return ResponseEntity.ok(userStory);
-    }
+    @PostMapping("/{userStoryId}/assign/{userId}")
+    public ResponseEntity<UserStoryDTO> assignUserToUserStory(
+            @PathVariable Long userStoryId,
+            @PathVariable Long userId) {
 
-    @PostMapping("/{id}/sprint/{sprintId}")
-    public ResponseEntity<UserStoryDTO> addUserStoryToSprint(
-            @PathVariable Long id,
-            @PathVariable Long sprintId) {
-        UserStoryDTO userStory = userStoryService.addUserStoryToSprint(id, sprintId);
-        return ResponseEntity.ok(userStory);
-    }
-
-    @DeleteMapping("/{id}/sprint")
-    public ResponseEntity<UserStoryDTO> removeUserStoryFromSprint(@PathVariable Long id) {
-        UserStoryDTO userStory = userStoryService.removeUserStoryFromSprint(id);
-        return ResponseEntity.ok(userStory);
+        UserStoryDTO updated = userStoryService.assignUserToUserStory(userStoryId, userId);
+        return ResponseEntity.ok(updated);
     }
 
     @GetMapping("/epic/{epicId}")
     public ResponseEntity<List<UserStoryDTO>> getUserStoriesByEpic(@PathVariable Long epicId) {
-        List<UserStoryDTO> userStories = userStoryService.getUserStoriesByEpic(epicId);
-        return ResponseEntity.ok(userStories);
+        return ResponseEntity.ok(userStoryService.getUserStoriesByEpic(epicId));
     }
 
     @GetMapping("/status/{status}")
     public ResponseEntity<List<UserStoryDTO>> getUserStoriesByStatus(@PathVariable String status) {
-        List<UserStoryDTO> userStories = userStoryService.getUserStoriesByStatus(status);
-        return ResponseEntity.ok(userStories);
+        return ResponseEntity.ok(userStoryService.getUserStoriesByStatus(status));
     }
 }

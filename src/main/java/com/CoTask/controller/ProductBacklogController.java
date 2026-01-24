@@ -2,6 +2,7 @@ package com.CoTask.controller;
 
 import com.CoTask.dto.ProductBacklogDTO;
 import com.CoTask.service.ProductBacklogService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class ProductBacklogController {
     private final ProductBacklogService backlogService;
 
     @PostMapping
-    public ResponseEntity<ProductBacklogDTO> createBacklog(@RequestBody ProductBacklogDTO dto) {
+    public ResponseEntity<ProductBacklogDTO> createBacklog(@Valid @RequestBody ProductBacklogDTO dto) {
         ProductBacklogDTO created = backlogService.createProductBacklog(dto);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }

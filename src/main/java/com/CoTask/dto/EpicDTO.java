@@ -9,6 +9,6 @@ public class EpicDTO {
     private Long id;
     private String title;
     private String description;
-    private Long productBacklogId; // id pour éviter d’envoyer tout le ProductBacklog
+    private Long productBacklogId;     // id pour éviter d’envoyer tout le ProductBacklog
 }
 

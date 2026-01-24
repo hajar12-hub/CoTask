@@ -2,6 +2,7 @@ package com.CoTask.controller;
 
 import com.CoTask.dto.SprintDTO;
 import com.CoTask.service.SprintService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class SprintController {
 
 
     @PostMapping
-    public ResponseEntity<SprintDTO> createSprint(@RequestBody SprintDTO sprintDTO) {
+    public ResponseEntity<SprintDTO> createSprint(@Valid  @RequestBody SprintDTO sprintDTO) {
         SprintDTO createdSprint = sprintService.createSprint(sprintDTO);
         return new ResponseEntity<>(createdSprint, HttpStatus.CREATED);
     }
